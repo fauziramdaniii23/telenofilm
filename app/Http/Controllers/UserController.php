@@ -88,7 +88,6 @@ class UserController extends Controller
     
     }
     public function galerry($username, $categoryName){
-         // Temukan pengguna berdasarkan nama pengguna (username)
     $user = User::where('name', $username)->first();
 
     // Jika pengguna tidak ditemukan, tampilkan pesan kesalahan atau lakukan penanganan yang sesuai

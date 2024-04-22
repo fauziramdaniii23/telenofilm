@@ -64,6 +64,9 @@ class User extends Authenticatable
     public function imageAds(){
         return $this->hasMany(imageAds::class);
     }
+    public function video(){
+        return $this->hasMany(Video::class);
+    }
 
     public function categories()
     {

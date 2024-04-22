@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\ImageWedding;
-use App\Http\Requests\StoreImageWeddingRequest;
-use App\Http\Requests\UpdateImageWeddingRequest;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Video;
 use Illuminate\Support\Facades\File;
 
 class ImageWeddingController extends Controller
@@ -21,7 +20,7 @@ class ImageWeddingController extends Controller
     {
         $category = Category::where('name', $categoryName)->first();
     
-        $users = $category->users;
+        $users = $category->users()->paginate(10);
 
         return view('admin.categorie.wedding.wedding', ['users' => $users, 'title' => $categoryName]);
     }
@@ -52,13 +51,6 @@ class ImageWeddingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return view('admin.categorie.wedding.create',[
-            'users' => User::all(),
-            'categories' => Category::all()
-        ]);
-    }
     public function autocomplete(Request $request)
     {
         $search = $request->get('term');
@@ -66,58 +58,24 @@ class ImageWeddingController extends Controller
         return response()->json($users);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreImageWeddingRequest $request)
-    {
-
-        if($request->hasFile('name')){
-            $file=$request->file('name');
-            foreach ($file as $image) {
-                
-                $imageName = time().'_'.$image->getClientOriginalName();
-                $image->move(\public_path('img/wedding/'),$imageName);
-                
-                ImageWedding::create([
-                    'user_id' => $request->user_id,
-                    'category_id' => 2,
-                    'name' => $imageName,
-                ]);
-            }
-        }
-
-        return redirect('/dashboard/wedding')->with('success', 'Data berhasil ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function addPhotos($userId)
-    {
-        $user = User::findOrFail($userId);
-        return view('admin.categorie.wedding.sendPhoto', ['user' => $user]);
-    }
-
     public function showPhotos($userId)
     {
         
         $user = User::findOrFail($userId);
-        // $images = ImageWedding::where('user_id', $userId)->where('category_id', $category)->get();
 
         $images = $user->imageWedding()->where('category_id', 2)->get();
+        $video = $user->video()->where('category_id', 2)->get();
 
-        return view('admin.categorie.wedding.show', ['user' => $user, 'images' => $images ]);
+        return view('admin.categorie.wedding.show', ['user' => $user, 'images' => $images, 'videos' => $video, 'title' => 'Show' ]);
     }
 
     public function uploadImage(Request $request){
         
     $request->validate([
         'user_id' => 'required|exists:users,id',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5048', // Sesuaikan dengan kebutuhan Anda
+        'image.*' => 'required|image'
     ]);
 
-    // Simpan gambar
     if ($request->hasFile('image')) {
         $file = $request->file('image');
 
@@ -125,7 +83,6 @@ class ImageWeddingController extends Controller
         $imageName = time() . '_' . $image->getClientOriginalName();
         $image->move(public_path('img/wedding/'), $imageName);
 
-        // Simpan data gambar ke dalam database
         ImageWedding::create([
             'user_id' => $request->user_id,
             'category_id' => 2,
@@ -139,6 +96,32 @@ class ImageWeddingController extends Controller
     return redirect()->back()->with('error', 'Failed to upload image.');
     }
 
+    public function uploadVideo(Request $request){
+        
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'video' => 'mimes:mp4,mov,avi,wmv,mkv|max:50148',
+    ]);
+
+    if ($request->hasFile('video')) {
+        $file = $request->file('video');
+
+        $videoName = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('video/wedding/'), $videoName);
+
+        Video::create([
+            'user_id' => $request->user_id,
+            'category_id' => 2,
+            'name' => $videoName,
+        ]);
+    
+
+        return redirect()->back()->with('success', 'video uploaded successfully.');
+    }
+
+    return redirect()->back()->with('error', 'Failed to upload video');
+    }
+
 
     public function deleteUserWedding($userId){
           // Temukan pengguna
@@ -146,10 +129,19 @@ class ImageWeddingController extends Controller
     $categoryId = Category::findOrFail(2);
 
     $userWedding = User::whereHas('categories', function ($query) {
-        $query->where('name', 'wedding');
-    })->find($userId);
+        $query->where('name', 'wedding'); })->find($userId);  
 
     if ($userWedding) {
+
+        if($userWedding->video->isNotEmpty()){
+            foreach($userWedding->video as $video)
+            $videoPath = public_path('video/wedding/'. $video->name);
+            
+            if(File::exists($videoPath)){
+                File::delete($videoPath);
+            }
+            $userWedding->video()->delete();
+        }
     
         if ($userWedding->imageWedding->isNotEmpty()) {
             
@@ -166,38 +158,9 @@ class ImageWeddingController extends Controller
             $userWedding->imageWedding()->delete();
         }
         $user->categories()->detach($categoryId);
-        // Hapus semua gambar pengguna dari database
     } 
 
     return redirect()->back()->with('success', 'User berhasil dihapus dari kategory wedding');
     }
 
-    public function show(ImageWedding $imageWedding)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ImageWedding $imageWedding)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateImageWeddingRequest $request, ImageWedding $imageWedding)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ImageWedding $imageWedding, $id)
-    {
-        //
-    }
 }

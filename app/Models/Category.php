@@ -18,4 +18,16 @@ class Category extends Model
     public function imageWedding(){
         return $this->hasMany(imageWedding::class);
     }
+    public function imagePrewedding(){
+        return $this->hasMany(ImagePrewedding::class);
+    }
+    public function imageEngagement(){
+        return $this->hasMany(ImageEngagement::class);
+    }
+    public function imageGraduation(){
+        return $this->hasMany(ImageGraduation::class);
+    }
+    public function video(){
+        return $this->hasMany(Video::class);
+    }
 }

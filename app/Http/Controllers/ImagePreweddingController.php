@@ -21,64 +21,14 @@ class ImagePreweddingController extends Controller
         return view('admin.categorie.prewedding.prewedding', [ 'users' => $users ,'title' => 'Prewedding']);
     }
 
-    function prewedding(){
-        return view('admin.categorie.prewedding.test');
-    }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('admin.categorie.prewedding.create',[
-            'users' => User::all(),
-            'categories' => Category::all()
-        ]);
-    }
+    public function showUser($userId){
+        // return $userId;
+        $user = User::findOrFail($userId);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreImagePreweddingRequest $request)
-    {
-        
-            ImagePrewedding::create([
-                'name' => $request->name
-            ]);
-        
-        return redirect('/dashboard/prewedding')->with('success', 'data berhasil ditambah');
-    }
+        $images = $user->imagePrewedding()->where('category_id', 1)->get();
+        $video = $user->video()->where('category_id', 1)->get();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ImagePrewedding $imagePrewedding)
-    {
-        
+        return view('admin.categorie.prewedding.show', ['user' => $user, 'images' => $images, 'videos' => $video, 'title' => 'Show' ]);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ImagePrewedding $imagePrewedding)
-    {
-        return view('admin.category.prewedding.edit', [
-            'prewedding' => $imagePrewedding
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateImagePreweddingRequest $request, ImagePrewedding $imagePrewedding)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ImagePrewedding $imagePrewedding)
-    {
-        //
-    }
+    
 }

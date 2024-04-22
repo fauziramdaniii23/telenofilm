@@ -75,18 +75,21 @@ Route::middleware(['auth', 'role:admin,developer'])->group(function(){
 
     // prewedding category
     Route::get('/dashboard/prewedding', [ImagePreweddingController::class, 'index'])->name('admin.prewedding');
+    Route::get('/dashboard/prewedding/user/{categoryName}', [ImagePreweddingController::class, 'searchUserPrewedding'])->name('searchUserPrewedding');
+    Route::get('/dashboard/prewedding/show/{UserId}', [ImagePreweddingController::class, 'showUser'])->name('showUserPrewedding');
+    Route::post('/dashboard/prewedding/image', [ImagePreweddingController::class, 'uploadImage'])->name('imagePreweddingUpload');
+    Route::post('/dashboard/prewedding/video', [ImagePreweddingController::class, 'uploadVideo'])->name('videoPreweddingUpload');
+    Route::delete('/dashboard/prewedding/{userId}', [ImagePreweddingController::class, 'deleteUserPrewedding'])->name('deleteUserPrewedding');
        
     //wedding category
     Route::delete('/dashboard/user/{userId}', [ImageWeddingController::class, 'deleteUserWedding'])->name('delete.user.wedding');
     Route::get('/dashboard/{categoryName}', [ImageWeddingController::class, 'wedding'])->name('admin.wedding');
     Route::get('/dashboard/user/{categoryName}', [ImageWeddingController::class, 'searchUserWedding'])->name('user.search.wedding');
-    Route::get('/dashboard/wedding/add', [ImageWeddingController::class, 'create'])->name('create');
-    Route::post('/dashboard/wedding/add', [ImageWeddingController::class, 'store'])->name('store');
-    Route::get('/dashboard/wedding/add/{userId}', [ImageWeddingController::class, 'addPhotos'])->name('addWeddingPhotos');
     Route::get('/dashboard/wedding/show/{userId}', [ImageWeddingController::class, 'showPhotos'])->name('showWedding');
-    Route::post('/dashboard/wedding/add/', [ImageWeddingController::class, 'uploadImage'])->name('imageWeddingUpload');
+    Route::post('/dashboard/wedding/image', [ImageWeddingController::class, 'uploadImage'])->name('imageWeddingUpload');
+    Route::post('/dashboard/wedding/video/', [ImageWeddingController::class, 'uploadVideo'])->name('videoWeddingUpload');
     Route::get('/users/autocomplete', [ImageWeddingController::class, 'autocomplete'])->name('users.autocomplete');
-
+    
 
     
 });
