@@ -59,7 +59,7 @@ class UserController extends Controller
 
         $user->categories()->attach($category);
 
-        return redirect()->back()->with('success', $user->name . 'ditambahkan kategori'. $category->name);
+        return redirect()->back()->with('success', $user->name . ' ditambahkan kategori '. $category->name);
     }
 
     public function removeCategory($userId, $categoryId)
@@ -70,7 +70,7 @@ class UserController extends Controller
 
         $user->categories()->detach($category);
 
-        return redirect()->back()->with('success', $user->name . 'dihapus dari kategori'. $category->name);
+        return redirect()->back()->with('success', $user->name . ' dihapus dari kategori '. $category->name);
     }
     
     public function delete($userId){
@@ -90,15 +90,11 @@ class UserController extends Controller
     public function galerry($username, $categoryName){
     $user = User::where('name', $username)->first();
 
-    // Jika pengguna tidak ditemukan, tampilkan pesan kesalahan atau lakukan penanganan yang sesuai
     if (!$user) {
         return response()->view('errors.404', [], 404);
     }
-
-    // Gunakan relasi sesuai dengan kategori yang diinginkan
     $images = $user->{"image" . ucfirst($categoryName)}()->get();
 
-    // Tampilkan view dengan data gambar yang ditemukan
     return view('home.myGalerry.galerry', ['images' => $images, 'categoryName' => $categoryName]);
     }
 }

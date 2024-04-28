@@ -160,7 +160,7 @@ class ImageWeddingController extends Controller
         $user->categories()->detach($categoryId);
     } 
 
-    return redirect()->back()->with('success', 'User berhasil dihapus dari kategory wedding');
+    return redirect()->back()->with('success', $user->name . ' berhasil dihapus dari kategory wedding');
     }
 
 }

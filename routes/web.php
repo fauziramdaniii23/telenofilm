@@ -4,6 +4,10 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ImageAdsController;
+use App\Http\Controllers\ImageEngagementController;
+use App\Http\Controllers\ImageEventController;
+use App\Http\Controllers\ImageGraduationController;
 use App\Http\Controllers\ImagePreweddingController;
 use App\Http\Controllers\ImageWeddingController;
 use App\Http\Controllers\OrderController;
@@ -72,7 +76,39 @@ Route::middleware(['auth', 'role:admin,developer'])->group(function(){
     Route::post('/users/{userId}/make-admin', [UserController::class, 'makeAdmin'])->name('make.admin');
     Route::post('/users/{userId}/make-user', [UserController::class, 'makeUser'])->name('make.user');
     Route::delete('/users/{userId}', [UserController::class, 'delete'])->name('users.destroy');
+    
+    // ads category
+    Route::get('/dashboard/ads', [ImageAdsController::class, 'index'])->name('adminAds');
+    Route::get('/dashboard/ads/user/{categoryName}', [ImageAdsController::class, 'searchUserAds'])->name('searchUserAds');
+    Route::get('/dashboard/ads/show/{UserId}', [ImageAdsController::class, 'showUser'])->name('showUserAds');
+    Route::post('/dashboard/ads/image', [ImageAdsController::class, 'uploadImage'])->name('imageAdsUpload');
+    Route::post('/dashboard/ads/video', [ImageAdsController::class, 'uploadVideo'])->name('videoAdsUpload');
+    Route::delete('/dashboard/ads/{userId}', [ImageAdsController::class, 'deleteUserAds'])->name('deleteUserAds');
 
+    // event category
+    Route::get('/dashboard/event', [ImageEventController::class, 'index'])->name('adminEvent');
+    Route::get('/dashboard/event/user/{categoryName}', [ImageEventController::class, 'searchUserEvent'])->name('searchUserEvent');
+    Route::get('/dashboard/event/show/{UserId}', [ImageEventController::class, 'showUser'])->name('showUserEvent');
+    Route::post('/dashboard/event/image', [ImageEventController::class, 'uploadImage'])->name('imageEventUpload');
+    Route::post('/dashboard/event/video', [ImageEventController::class, 'uploadVideo'])->name('videoEventUpload');
+    Route::delete('/dashboard/event/{userId}', [ImageEventController::class, 'deleteUserEvent'])->name('deleteUserEvent');
+
+    // Graduation category
+    Route::get('/dashboard/graduation', [ImageGraduationController::class, 'index'])->name('adminGraduation');
+    Route::get('/dashboard/graduation/user/{categoryName}', [ImageGraduationController::class, 'searchUserGraduation'])->name('searchUserGraduation');
+    Route::get('/dashboard/graduation/show/{UserId}', [ImageGraduationController::class, 'showUser'])->name('showUserGraduation');
+    Route::post('/dashboard/graduation/image', [ImageGraduationController::class, 'uploadImage'])->name('imageGraduationUpload');
+    Route::post('/dashboard/graduation/video', [ImageGraduationController::class, 'uploadVideo'])->name('videoGraduationUpload');
+    Route::delete('/dashboard/graduation/{userId}', [ImageGraduationController::class, 'deleteUserGraduation'])->name('deleteUserGraduation');
+    
+    // engagement category
+    Route::get('/dashboard/engagement', [ImageEngagementController::class, 'index'])->name('adminEngagement');
+    Route::get('/dashboard/engagement/user/{categoryName}', [ImageEngagementController::class, 'searchUserEngagement'])->name('searchUserEngagement');
+    Route::get('/dashboard/engagement/show/{UserId}', [ImageEngagementController::class, 'showUser'])->name('showUserEngagement');
+    Route::post('/dashboard/engagement/image', [ImageEngagementController::class, 'uploadImage'])->name('imageEngagementUpload');
+    Route::post('/dashboard/engagement/video', [ImageEngagementController::class, 'uploadVideo'])->name('videoEngagementUpload');
+    Route::delete('/dashboard/engagement/{userId}', [ImageEngagementController::class, 'deleteUserEngagement'])->name('deleteUserEngagement');
+    
     // prewedding category
     Route::get('/dashboard/prewedding', [ImagePreweddingController::class, 'index'])->name('admin.prewedding');
     Route::get('/dashboard/prewedding/user/{categoryName}', [ImagePreweddingController::class, 'searchUserPrewedding'])->name('searchUserPrewedding');
@@ -80,7 +116,7 @@ Route::middleware(['auth', 'role:admin,developer'])->group(function(){
     Route::post('/dashboard/prewedding/image', [ImagePreweddingController::class, 'uploadImage'])->name('imagePreweddingUpload');
     Route::post('/dashboard/prewedding/video', [ImagePreweddingController::class, 'uploadVideo'])->name('videoPreweddingUpload');
     Route::delete('/dashboard/prewedding/{userId}', [ImagePreweddingController::class, 'deleteUserPrewedding'])->name('deleteUserPrewedding');
-       
+    
     //wedding category
     Route::delete('/dashboard/user/{userId}', [ImageWeddingController::class, 'deleteUserWedding'])->name('delete.user.wedding');
     Route::get('/dashboard/{categoryName}', [ImageWeddingController::class, 'wedding'])->name('admin.wedding');
@@ -89,6 +125,7 @@ Route::middleware(['auth', 'role:admin,developer'])->group(function(){
     Route::post('/dashboard/wedding/image', [ImageWeddingController::class, 'uploadImage'])->name('imageWeddingUpload');
     Route::post('/dashboard/wedding/video/', [ImageWeddingController::class, 'uploadVideo'])->name('videoWeddingUpload');
     Route::get('/users/autocomplete', [ImageWeddingController::class, 'autocomplete'])->name('users.autocomplete');
+    
     
 
     

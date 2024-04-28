@@ -10,11 +10,11 @@
 <div class="flex flex-wrap">
   @foreach ($videos as $video)
     <h1> Video {{ $user->name }}</h1>
-      <video controls src="{{ asset('/video/prewedding/'. $video->name) }}">
+      <video controls src="{{ asset('/video/graduation/'. $video->name) }}">
       </video>
   @endforeach
     @foreach ($images as $image)
-        <img src="{{ asset('/img/prewedding/'. $image->name) }}" alt="" class="m-4 h-20 w-20 rounded-lg object-cover">
+        <img src="{{ asset('/img/graduation/'. $image->name) }}" alt="" class="m-4 h-20 w-20 rounded-lg object-cover">
     @endforeach
 </div>
 
@@ -28,6 +28,6 @@
     </div>
   @endif
   <div>
-    <a href="{{ route('admin.prewedding') }}">Kembali</a>
+    <a href="{{ route('adminGraduation') }}">Kembali</a>
   </div>
 @endsection

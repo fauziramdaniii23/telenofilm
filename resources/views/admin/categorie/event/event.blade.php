@@ -5,19 +5,19 @@
     @include('home.component.alert')
     <section>
         <div class="flex justify-center items-center">
-            <h1 class="lg:text-2xl font-semibold">Admin Prewedding</h1>
+            <h1 class="lg:text-2xl font-semibold">Admin Event</h1>
         </div>
 
         <div class="flex">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M20 2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-6 2.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM19 15H9v-.25C9 12.901 11.254 11 14 11s5 1.901 5 3.75V15z"></path><path d="M4 8H2v12c0 1.103.897 2 2 2h12v-2H4V8z"></path></svg>
-            <h1 class="font-semibold ml-2">Customer Prewedding</h1>
+            <h1 class="font-semibold ml-2">Customer Event</h1>
         </div>
 
         @foreach ($errors->all() as $error)
         <li class="py-2 px-4 m-4 bg-red-300 rounded-xl text-red-600 text-base">{{ $error }}</li>
      @endforeach
 
-        <form action="{{ route('searchUserPrewedding', ['categoryName' => 'prewedding']) }}" method="GET">
+        <form action="{{ route('searchUserEvent', ['categoryName' => 'event']) }}" method="GET">
             <div
       class="relative flex lg:w-1/2 m-4"
       data-te-input-wrapper-init
@@ -80,15 +80,15 @@
                             <td class="whitespace-nowrap px-6 py-4 font-medium">{{ $loop->iteration }}</td>
                             <td class="whitespace-nowrap px-6 py-4">{{ $user->name }}</td>
                             <td class="whitespace-nowrap px-6 py-4">
-                            @if ($user->imagePrewedding->isNotEmpty())
-                                <img src="{{ asset('img/prewedding/' . $user->imagePrewedding->first()->name) }}" alt="Customer Photo" class="h-10 w-10 rounded-full object-cover">
+                            @if ($user->imageEvent->isNotEmpty())
+                                <img src="{{ asset('img/event/' . $user->imageEvent->first()->name) }}" alt="Customer Photo" class="h-10 w-10 rounded-full object-cover">
                             @else
                                 <span>No Photo</span>
                             @endif
                             </td>
                             
                             <td class="whitespace-nowrap px-6 py-4">
-                                <a href="{{ route('showUserPrewedding', $user->id) }}"><svg class="hover:scale-125 transition duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(56, 98, 251);transform: ;msFilter:;"><path d="M12 5c-7.633 0-9.927 6.617-9.948 6.684L1.946 12l.105.316C2.073 12.383 4.367 19 12 19s9.927-6.617 9.948-6.684l.106-.316-.105-.316C21.927 11.617 19.633 5 12 5zm0 11c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4z"></path><path d="M12 10c-1.084 0-2 .916-2 2s.916 2 2 2 2-.916 2-2-.916-2-2-2z"></path></svg></a>
+                                <a href="{{ route('showUserEvent', $user->id) }}"><svg class="hover:scale-125 transition duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(56, 98, 251);transform: ;msFilter:;"><path d="M12 5c-7.633 0-9.927 6.617-9.948 6.684L1.946 12l.105.316C2.073 12.383 4.367 19 12 19s9.927-6.617 9.948-6.684l.106-.316-.105-.316C21.927 11.617 19.633 5 12 5zm0 11c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4z"></path><path d="M12 10c-1.084 0-2 .916-2 2s.916 2 2 2 2-.916 2-2-.916-2-2-2z"></path></svg></a>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 flex gap-2 justify-center">
                               
@@ -96,7 +96,7 @@
                             type="button"
                             class="p-2 rounded-full bg-neutral-50 hover:scale-110 transition duration-200"
                             data-te-toggle="modal"
-                            data-te-target="#ModalSendVideoPrewedding{{ $user->id }}"
+                            data-te-target="#ModalSendVideoEvent{{ $user->id }}"
                             data-te-ripple-init
                             title="Send Video"
                             data-te-ripple-color="light">
@@ -107,14 +107,14 @@
                             type="button"
                             class="p-2 rounded-full -rotate-45 bg-cyan-500 hover:scale-110 transition duration-200"
                             data-te-toggle="modal"
-                            data-te-target="#ModalSendPhotoPrewedding{{ $user->id }}"
+                            data-te-target="#ModalSendPhotoEvent{{ $user->id }}"
                             data-te-ripple-init
                             title="Send Photo"
                             data-te-ripple-color="light">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);transform: ;msFilter:;"><path d="m21.426 11.095-17-8A.999.999 0 0 0 3.03 4.242L4.969 12 3.03 19.758a.998.998 0 0 0 1.396 1.147l17-8a1 1 0 0 0 0-1.81zM5.481 18.197l.839-3.357L12 12 6.32 9.16l-.839-3.357L18.651 12l-13.17 6.197z"></path></svg>
                         </button>
 
-                         <form action="{{ route('deleteUserPrewedding', ['userId' => $user->id]) }}" method="POST">
+                         <form action="{{ route('deleteUserEvent', ['userId' => $user->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
                           <button
@@ -122,15 +122,15 @@
                             class="inline-block rounded-full p-2 bg-red-500 hover:scale-110 transition duration-200"
                             data-te-ripple-init
                             data-te-ripple-color="light"
-                            onclick="return confirm('Hapus User dari kategori Wedding?')">
+                            onclick="return confirm('Hapus User dari kategori Engagement?')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(249, 175, 175);transform: ;msFilter:;"><path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2zM9 4h6v2H9zM8 8h9v12H7V8z"></path><path d="M9 10h2v8H9zm4 0h2v8h-2z"></path></svg>
                           </button>
                           </form>
                             </td>
                             
                         </tr>
-                        @include('admin.categorie.prewedding.modalSendPhoto')
-                        @include('admin.categorie.prewedding.modalSendVideo')
+                        @include('admin.categorie.event.modalSendPhoto')
+                        @include('admin.categorie.event.modalSendVideo')
                         @endforeach
                         
                     </tbody>

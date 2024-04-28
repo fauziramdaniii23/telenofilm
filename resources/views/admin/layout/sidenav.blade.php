@@ -54,21 +54,22 @@
                     <p class="pl-10 py-2 text-neutral-100 px-4 rounded transition duration-200 hover:bg-neutral-100 hover:text-black">Pre Wedding</p>
                
             </a>
-            <a href="" class="px-5">
+            <a href="{{ route('adminEngagement') }}" class="px-5">
            
                     <p class="pl-10 py-2 text-neutral-100 px-4 rounded transition duration-200 hover:bg-neutral-100 hover:text-black">Engagement</p>
             </a>
-            <a href="" class="px-5">
+
+            <a href="{{ route('adminGraduation') }}" class="px-5">
              
                     <p class="pl-10 py-2 text-neutral-100 px-4 rounded transition duration-200 hover:bg-neutral-100 hover:text-black">Graduation</p>
                
             </a>
-            <a href="" class="px-5">
+            <a href="{{ route('adminEvent') }}" class="px-5">
              
                     <p class="pl-10 py-2 text-neutral-100 px-4 rounded transition duration-200 hover:bg-neutral-100 hover:text-black">Event</p>
                
             </a>
-            <a href="" class="px-5">
+            <a href="{{ route('adminAds') }}" class="px-5">
              
                     <p class="pl-10 py-2 text-neutral-100 px-4 rounded transition duration-200 hover:bg-neutral-100 hover:text-black">Ads</p>
                
